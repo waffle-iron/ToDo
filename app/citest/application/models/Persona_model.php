@@ -1,6 +1,17 @@
 <?php
 class Persona_model extends CI_Model {
 
+	/*
+	 * Variables para los stored procedures usados por el modelo
+	 */
+	private $sp_consulta 	= 'call persona_consulta(?)';
+	private $sp_alta 		= 'call persona_alta(?, ?, ?, ?)';
+	private $sp_editar 		= 'call persona_editar(?, ?, ?, ?)';
+	private $sp_baja 		= 'call persona_baja(?)';
+	
+	/*
+	 * Variables para los atributos del modelo
+	 */
 	public $cuil;
 	public $nombre;
 	public $apellido;
@@ -13,8 +24,7 @@ class Persona_model extends CI_Model {
 	
 	public function traer_persona($cuil)
 	{
-		$sp = 'call persona_consulta(?)';
-		$query = $this->db->query($sp, array('cuil' => $cuil));
+		$query = $this->db->query($this->sp_consulta, array('cuil' => $cuil));
 		if ($query->num_rows() > 0) {
 			$row=$query->row_array();
 			$this->cuil=$row["CUIL"];
@@ -27,15 +37,13 @@ class Persona_model extends CI_Model {
 	
 	public function buscar_personas()
 	{
-		$sp = 'call persona_consulta(?)';
-		$query = $this->db->query($sp, array('cuil' => NULL));
+		$query = $this->db->query($this->sp_consulta, array('cuil' => NULL));
 		return $query->result_array();
 	}
 	
 	public function insert_persona()
 	{	
-		$sp = 'call persona_alta(?, ?, ?, ?)';
-		if($this->db->query($sp, 
+		if($this->db->query($this->sp_alta, 
 				array(
 						'cuil' 		=> $this->input->post('cuil'), 
 						'Nombre' 	=> $this->input->post('nombre'), 
@@ -48,15 +56,15 @@ class Persona_model extends CI_Model {
 		return $resultado;
 	}
 	
-	public function update_persona($persona)
+	public function update_persona()
 	{
-		$sp = 'call persona_editar(?, ?, ?, ?)';
-		if($this->db->query($sp, array
-				(
-					'cuil' 		=> $persona->cuil, 
-					'Nombre' 	=> $persona->nombre, 
-					'Apellido' 	=> $persona->apellido, 
-					'Mail' 		=> $persona->mail)))
+		if($this->db->query($this->sp_editar, 
+				array(
+						'cuil' 		=> $this->input->post('cuil'), 
+						'Nombre' 	=> $this->input->post('nombre'), 
+						'Apellido' 	=> $this->input->post('apellido'), 
+						'Mail' 		=> $this->input->post('mail')))
+				)
 			$resultado['resultado']='OK';
 		else
 			$resultado['resultado']='ERROR';
@@ -65,8 +73,7 @@ class Persona_model extends CI_Model {
 	
 	public function delete_personas($cuil = FALSE)
 	{
-		$sp = 'call persona_baja(?)';
-		if($query = $this->db->query($sp, array('cuil' => $cuil)))
+		if($query = $this->db->query($this->sp_baja, array('cuil' => $cuil)))
 			$resultado['resultado']='OK';
 		else
 			$resultado['resultado']='ERROR';
