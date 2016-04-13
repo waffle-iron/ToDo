@@ -1,10 +1,10 @@
 <?php
 class Persona_model extends CI_Model {
 
-	public $Cuil;
-	public $Nombre;
-	public $Apellido;
-	public $Mail;
+	public $cuil;
+	public $nombre;
+	public $apellido;
+	public $mail;
 	
 	public function __construct()
 	{
@@ -17,10 +17,10 @@ class Persona_model extends CI_Model {
 		$query = $this->db->query($sp, array('cuil' => $cuil));
 		if ($query->num_rows() > 0) {
 			$row=$query->row_array();
-			$this->Cuil=$row["CUIL"];
-			$this->Nombre=$row["Nombre"];
-			$this->Apellido=$row["Apellido"];
-			$this->Mail=$row["Mail"];
+			$this->cuil=$row["CUIL"];
+			$this->nombre=$row["Nombre"];
+			$this->apellido=$row["Apellido"];
+			$this->mail=$row["Mail"];
 		}
 		return $this;
 	}
@@ -48,15 +48,15 @@ class Persona_model extends CI_Model {
 		return $resultado;
 	}
 	
-	public function update_persona()
+	public function update_persona($persona)
 	{
 		$sp = 'call persona_editar(?, ?, ?, ?)';
 		if($this->db->query($sp, array
 				(
-					'cuil' 		=> '20336206238', 
-					'Nombre' 	=> 'Pedro', 
-					'Apellido' 	=> 'ChotaLarga', 
-					'Mail' 		=> 'jchot@larga.com')))
+					'cuil' 		=> $persona->cuil, 
+					'Nombre' 	=> $persona->nombre, 
+					'Apellido' 	=> $persona->apellido, 
+					'Mail' 		=> $persona->mail)))
 			$resultado['resultado']='OK';
 		else
 			$resultado['resultado']='ERROR';
