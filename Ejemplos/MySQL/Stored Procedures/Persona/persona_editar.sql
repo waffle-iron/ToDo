@@ -7,8 +7,8 @@ IN Mail_IN varchar(256)
 BEGIN
 	UPDATE persona 
     SET  
-		Nombre = Nombre_IN,
-		Apellido = Apellido_IN,
-		Mail = Mail_IN
+		nombre = Nombre_IN,
+		apellido = Apellido_IN,
+		mail = Mail_IN
     WHERE CUIL = CUIL_IN;
 END

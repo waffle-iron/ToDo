@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `test` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `test`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win32 (AMD64)
 --
 -- Host: localhost    Database: test
@@ -25,11 +23,11 @@ DROP TABLE IF EXISTS `persona`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `persona` (
-  `CUIL` bigint(20) NOT NULL,
-  `Nombre` varchar(256) COLLATE latin1_general_ci NOT NULL,
-  `Apellido` varchar(256) COLLATE latin1_general_ci NOT NULL,
-  `Mail` varchar(256) COLLATE latin1_general_ci NOT NULL,
-  PRIMARY KEY (`CUIL`)
+  `cuil` bigint(20) NOT NULL,
+  `nombre` varchar(256) CHARACTER SET latin1 NOT NULL,
+  `apellido` varchar(256) CHARACTER SET latin1 NOT NULL,
+  `mail` varchar(256) CHARACTER SET latin1 NOT NULL,
+  PRIMARY KEY (`cuil`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -39,7 +37,7 @@ CREATE TABLE `persona` (
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES (0,'asdf','asdf','asdf'),(20219638796,'Sergio','Raimundo','sdraimundo@mail.gov.ar'),(20243796408,'Mariano','Andolfatto Tello','mcandolfatto@mail.gov.ar'),(20336206228,'Marco','Cupo','mcupo@mail.gov.ar'),(23307451718,'s','a','cuttlas88@yahoo.com.ar'),(23307451719,'seba','iobre','seba@seba.com');
+INSERT INTO `persona` VALUES (232,'kortney','cane','cc@cane.dot.com'),(454,'454','454','454@mail.com'),(2323,'343','343','343'),(20219638796,'Sergio','Raimundo','sdraimundo@mail.gov.ar'),(20243796408,'Mariano','Andolfatto Tello','mcandolfatto@mail.gov.ar'),(20269655012,'Gaston Ezequiel','Andrade','elcapogasty@hotmail.com.ar'),(20336206228,'Marco','Cupo','mcupo@mail.gob.ar');
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,7 +61,7 @@ IN Apellido_IN varchar(256),
 IN Mail_IN varchar(256)
 )
 BEGIN
-	insert into persona (CUIL, Nombre, Apellido, Mail) values (CUIL_IN, Nombre_IN, Apellido_IN, Mail_IN);
+	insert into persona (cuil, nombre, apellido, mail) values (CUIL_IN, Nombre_IN, Apellido_IN, Mail_IN);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -82,7 +80,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `persona_baja`(IN CUIL_IN bigint)
 BEGIN
-	DELETE FROM persona WHERE CUIL = CUIL_IN;
+	DELETE FROM persona WHERE cuil = CUIL_IN;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -102,7 +100,7 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `persona_consulta`(IN CUIL_IN BIGINT)
 BEGIN
 	if CUIL_IN is not null then
-		select * from persona where CUIL = CUIL_IN;
+		select * from persona where cuil = CUIL_IN;
 	else
 		select * from persona;
 	end if;
@@ -131,9 +129,9 @@ IN Mail_IN varchar(256)
 BEGIN
 	UPDATE persona 
     SET  
-		Nombre = Nombre_IN,
-		Apellido = Apellido_IN,
-		Mail = Mail_IN
+		nombre = Nombre_IN,
+		apellido = Apellido_IN,
+		mail = Mail_IN
     WHERE CUIL = CUIL_IN;
 END ;;
 DELIMITER ;
@@ -151,4 +149,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-23 15:25:24
+-- Dump completed on 2016-04-14 17:02:37

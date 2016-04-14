@@ -5,5 +5,5 @@ IN Apellido_IN varchar(256),
 IN Mail_IN varchar(256)
 )
 BEGIN
-	insert into persona (CUIL, Nombre, Apellido, Mail) values (CUIL_IN, Nombre_IN, Apellido_IN, Mail_IN);
+	insert into persona (cuil, nombre, apellido, mail) values (CUIL_IN, Nombre_IN, Apellido_IN, Mail_IN);
 END
