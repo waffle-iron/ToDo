@@ -6,3 +6,6 @@
 		echo $personas_item->mail.'</br>';
 	?>
 </div>
+  <?php echo $volver; ?>
+  <br/><br/>
+  

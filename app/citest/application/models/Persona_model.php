@@ -3,6 +3,7 @@ class Persona_model extends CI_Model {
 
 	/**
 	 * Variables para los stored procedures usados por el modelo
+	 * @var string
 	 */
 	private $sp_consulta 	= 'call persona_consulta(?)';
 	private $sp_alta 		= 'call persona_alta(?, ?, ?, ?)';
@@ -11,6 +12,7 @@ class Persona_model extends CI_Model {
 	
 	/**
 	 * Variables para los atributos del modelo
+	 * @var string
 	 */
 	public $cuil;
 	public $nombre;
@@ -24,6 +26,7 @@ class Persona_model extends CI_Model {
 	
 	/**
 	 * Consulta de persona
+	 * 
 	 * Consulta personas por cuil o devuelve toda la tabla
 	 * @param 		string 		$cuil
 	 * @return 		mixed 		object|array Devuelve un objeto Persona si se consulta por un CUIL, sino devuelve un array
@@ -35,10 +38,10 @@ class Persona_model extends CI_Model {
 		{
 			if ($query->num_rows() > 0) {
 				$row=$query->row_array();
-				$this->cuil=$row["CUIL"];
-				$this->nombre=$row["Nombre"];
-				$this->apellido=$row["Apellido"];
-				$this->mail=$row["Mail"];
+				$this->cuil=$row["cuil"];
+				$this->nombre=$row["nombre"];
+				$this->apellido=$row["apellido"];
+				$this->mail=$row["mail"];
 			}
 			return $this;
 		}
