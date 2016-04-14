@@ -1,7 +1,7 @@
 <?php
 class Persona_model extends CI_Model {
 
-	/*
+	/**
 	 * Variables para los stored procedures usados por el modelo
 	 */
 	private $sp_consulta 	= 'call persona_consulta(?)';
@@ -9,7 +9,7 @@ class Persona_model extends CI_Model {
 	private $sp_editar 		= 'call persona_editar(?, ?, ?, ?)';
 	private $sp_baja 		= 'call persona_baja(?)';
 	
-	/*
+	/**
 	 * Variables para los atributos del modelo
 	 */
 	public $cuil;
@@ -22,26 +22,37 @@ class Persona_model extends CI_Model {
 		$this->load->database();
 	}
 	
-	public function traer_persona($cuil)
+	/**
+	 * Consulta de persona
+	 * Consulta personas por cuil o devuelve toda la tabla
+	 * @param 		string 		$cuil
+	 * @return 		mixed 		object|array Devuelve un objeto Persona si se consulta por un CUIL, sino devuelve un array
+	 */
+	public function consulta($cuil=NULL)
 	{
 		$query = $this->db->query($this->sp_consulta, array('cuil' => $cuil));
-		if ($query->num_rows() > 0) {
-			$row=$query->row_array();
-			$this->cuil=$row["CUIL"];
-			$this->nombre=$row["Nombre"];
-			$this->apellido=$row["Apellido"];
-			$this->mail=$row["Mail"];
+		if($cuil)
+		{
+			if ($query->num_rows() > 0) {
+				$row=$query->row_array();
+				$this->cuil=$row["CUIL"];
+				$this->nombre=$row["Nombre"];
+				$this->apellido=$row["Apellido"];
+				$this->mail=$row["Mail"];
+			}
+			return $this;
 		}
-		return $this;
+		else
+		{
+			return $query->result_array();
+		}
 	}
 	
-	public function buscar_personas()
-	{
-		$query = $this->db->query($this->sp_consulta, array('cuil' => NULL));
-		return $query->result_array();
-	}
-	
-	public function insert_persona()
+	/**
+	 * Alta de persona
+	 * @return 		array Devuelve un array con la la clave 'resultado', OK en caso de alta exitosa y sino ERROR
+	 */
+	public function alta()
 	{	
 		if($this->db->query($this->sp_alta, 
 				array(
@@ -56,7 +67,11 @@ class Persona_model extends CI_Model {
 		return $resultado;
 	}
 	
-	public function update_persona()
+	/**
+	 * Edicion de persona
+	 * @return 		array Devuelve un array con la la clave 'resultado', OK en caso de alta exitosa y sino ERROR
+	 */
+	public function editar()
 	{
 		if($this->db->query($this->sp_editar, 
 				array(
@@ -71,7 +86,11 @@ class Persona_model extends CI_Model {
 		return $resultado;
 	}
 	
-	public function delete_personas($cuil = FALSE)
+	/**
+	 * Baja de persona
+	 * @return 		array Devuelve un array con la la clave 'resultado', OK en caso de alta exitosa y sino ERROR
+	 */
+	public function baja($cuil = FALSE)
 	{
 		if($query = $this->db->query($this->sp_baja, array('cuil' => $cuil)))
 			$resultado['resultado']='OK';

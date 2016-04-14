@@ -15,7 +15,7 @@ class Persona extends CI_Controller {
 	
 	public function index()
 	{
-		$data['personas'] = $this->Persona_model->buscar_personas();
+		$data['personas'] = $this->Persona_model->consulta();
 		$data['titulo'] = 'Personas';
 		$template = array(
 				'table_open' => '<table border="0" cellpadding="4" cellspacing="0" class="table table-striped">'
@@ -43,7 +43,7 @@ class Persona extends CI_Controller {
 		$cuil = $this->input->post('cuil');
 		
 		if ($cuil!=NULL){
-			$persona = $this->Persona_model->traer_persona($cuil);
+			$persona = $this->Persona_model->consulta($cuil);
 			$template = array(
 					'table_open' => '<table border="0" cellpadding="4" cellspacing="0" class="table table-striped">'
 			);
@@ -74,7 +74,7 @@ class Persona extends CI_Controller {
 		{
 			$data['mensaje']= validation_errors();
 		}
-		else if($this->Persona_model->insert_persona()['resultado']='OK')
+		else if($this->Persona_model->alta()['resultado']='OK')
 		{
 
 			$data['mensaje'] = '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Persona guardada correctamente!</div>';
@@ -90,7 +90,7 @@ class Persona extends CI_Controller {
 	
 	public function ver($cuil = NULL)
 	{
-		$data['personas_item'] = $this->Persona_model->traer_persona($cuil);
+		$data['personas_item'] = $this->Persona_model->consulta($cuil);
 		$data['titulo'] = 'Personas';
 		if (empty($data['personas_item']))
 		{
@@ -111,7 +111,7 @@ class Persona extends CI_Controller {
 		//Si no es un post, no se llama al actualizar y solo se muestran los campos para editar
 		if(!$this->input->post('cuil'))
 		{	
-			$persona = $this->Persona_model->traer_persona($cuil);
+			$persona = $this->Persona_model->consulta($cuil);
 			$this->datos_formulario->cuil = $persona->cuil;
 			$this->datos_formulario->nombre = $persona->nombre;
 			$this->datos_formulario->apellido = $persona->apellido;
@@ -126,7 +126,7 @@ class Persona extends CI_Controller {
 			{
 				$data['mensaje']= validation_errors();
 			}
-			else if($this->Persona_model->update_persona()['resultado']='OK')
+			else if($this->Persona_model->editar()['resultado']='OK')
 			{
 			
 				$data['mensaje'] = '<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Persona guardada correctamente!</div>';
@@ -143,7 +143,7 @@ class Persona extends CI_Controller {
 	
 	public function eliminar($cuil = NULL)
 	{
-		$this->Persona_model->delete_personas($cuil);
+		$this->Persona_model->baja($cuil);
 		$this->index();
 	}
 	
@@ -170,6 +170,6 @@ class Persona extends CI_Controller {
 	
 	public function ax_insert()
 	{
-		echo json_encode($this->Persona_model->insert_personas());
+		echo json_encode($this->Persona_model->alta());
 	}
 }
