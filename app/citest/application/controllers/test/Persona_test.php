@@ -32,9 +32,14 @@ class Persona_test extends CI_Controller {
 		$this->consulta_test();
 		mysqli_next_result($this->db->conn_id);
 		$this->consulta_test_por_cuil();
+		mysqli_next_result($this->db->conn_id);
+		$this->baja_test();
 		echo $this->unit->report();
 	}
 	
+	/**
+	 * @todo Mostrar el objeto devuelto en la pantalla asi se corrobora completamente el funcionamiento
+	 */
 	public function consulta_test()
 	{
 		$test = $this->Persona_model->consulta();
@@ -56,7 +61,7 @@ class Persona_test extends CI_Controller {
 		$ch = curl_init();
 		curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
 		$params = array(
-				"cuil"=>"2323223",
+				"cuil"=>"232322003",
 				"nombre"=>"Curl",
 				"apellido"=>"Larry",
 				"mail"=>"curl@hotmail.com",
@@ -65,6 +70,18 @@ class Persona_test extends CI_Controller {
 		curl_setopt($ch,CURLOPT_POST,true);
 		curl_setopt($ch,CURLOPT_POSTFIELDS,http_build_query($params));
 		$result = curl_exec($ch);
-		
+		echo $result;
+	}
+	
+	/**
+	 * @todo usar el mismo cuil de la prueba de alta, asi siempre existe
+	 */
+	public function baja_test()
+	{
+		$test = $this->Persona_model->baja('454');
+		$resultado['resultado']='OK';
+		$expected_result = $resultado;
+		$test_name = 'Baja persona por cuil';
+		$this->unit->run($test, $expected_result, $test_name);
 	}
 }
