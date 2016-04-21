@@ -53,16 +53,17 @@ class Persona_model extends CI_Model {
 	
 	/**
 	 * Alta de persona
+	 * @param		object	$persona
 	 * @return 		array Devuelve un array con la la clave 'resultado', OK en caso de alta exitosa y sino ERROR
 	 */
-	public function alta()
+	public function alta($persona)
 	{	
 		if($this->db->query($this->sp_alta, 
 				array(
-						'cuil' 		=> $this->input->post('cuil'), 
-						'Nombre' 	=> $this->input->post('nombre'), 
-						'Apellido' 	=> $this->input->post('apellido'), 
-						'Mail' 		=> $this->input->post('mail')))
+						'cuil' 		=> $persona->cuil, 
+						'Nombre' 	=> $persona->nombre, 
+						'Apellido' 	=> $persona->apellido, 
+						'Mail' 		=> $persona->mail))
 				)
 			$resultado['resultado']='OK';
 		else
@@ -72,16 +73,17 @@ class Persona_model extends CI_Model {
 	
 	/**
 	 * Edicion de persona
+	 * @param		object	$persona
 	 * @return 		array Devuelve un array con la la clave 'resultado', OK en caso de alta exitosa y sino ERROR
 	 */
-	public function editar()
+	public function editar($persona)
 	{
 		if($this->db->query($this->sp_editar, 
 				array(
-						'cuil' 		=> $this->input->post('cuil'), 
-						'Nombre' 	=> $this->input->post('nombre'), 
-						'Apellido' 	=> $this->input->post('apellido'), 
-						'Mail' 		=> $this->input->post('mail')))
+						'cuil' 		=> $persona->cuil, 
+						'Nombre' 	=> $persona->nombre, 
+						'Apellido' 	=> $persona->apellido, 
+						'Mail' 		=> $persona->mail))
 				)
 			$resultado['resultado']='OK';
 		else

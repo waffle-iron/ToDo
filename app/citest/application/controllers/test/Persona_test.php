@@ -2,10 +2,10 @@
 class Persona_test extends CI_Controller {
 	
 	/**
-	 * Cuil existente en la base
+	 * Cuil que se creara en la primer prueba, si falla el alta, fallaran las pruebas asociadas a este CUIL
 	 * @var string
 	 */
-	public $cuil_prueba = '20336206228';
+	public $cuil_prueba = '99999999999';
 	
 	public $cuil;
 	public $nombre;
@@ -25,16 +25,30 @@ class Persona_test extends CI_Controller {
 	 */
 	public function index()
 	{
-		/*$test = 1 + 1;
-		$expected_result = 2;
-		$test_name = 'Adds one plus one';
-		$this->unit->run($test, $expected_result, $test_name);*/
+		$this->alta_test();
 		$this->consulta_test();
 		mysqli_next_result($this->db->conn_id);
 		$this->consulta_test_por_cuil();
 		mysqli_next_result($this->db->conn_id);
 		$this->baja_test();
 		echo $this->unit->report();
+	}
+	
+	/**
+	 * 
+	 */
+	public function alta_test()
+	{
+		$persona = new stdClass();
+		$persona->cuil 		= $this->cuil_prueba;
+		$persona->nombre 	= 'Nombre Test';
+		$persona->apellido 	= 'Apellido Test';
+		$persona->mail 		= 'mail@test.com';
+		$resultado['resultado']='OK';
+		$test = $this->Persona_model->alta($persona);
+		$expected_result = $resultado;
+		$test_name = 'Alta persona';
+		$this->unit->run($test, $expected_result, $test_name);
 	}
 	
 	/**
@@ -45,7 +59,8 @@ class Persona_test extends CI_Controller {
 		$test = $this->Persona_model->consulta();
 		$expected_result = 'is_array';
 		$test_name = 'Consulta persona';
-		$this->unit->run($test, $expected_result, $test_name);
+		$notes = print_r($test, true);
+		$this->unit->run($test, $expected_result, $test_name, $notes);
 	}
 	
 	public function consulta_test_por_cuil()
@@ -56,29 +71,12 @@ class Persona_test extends CI_Controller {
 		$this->unit->run($test, $expected_result, $test_name);
 	}
 	
-	public function alta_test()
-	{
-		$ch = curl_init();
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-		$params = array(
-				"cuil"=>"232322003",
-				"nombre"=>"Curl",
-				"apellido"=>"Larry",
-				"mail"=>"curl@hotmail.com",
-		);
-		curl_setopt($ch,CURLOPT_URL,"http://localhost:8080/citest/persona/alta");
-		curl_setopt($ch,CURLOPT_POST,true);
-		curl_setopt($ch,CURLOPT_POSTFIELDS,http_build_query($params));
-		$result = curl_exec($ch);
-		echo $result;
-	}
-	
 	/**
 	 * @todo usar el mismo cuil de la prueba de alta, asi siempre existe
 	 */
 	public function baja_test()
 	{
-		$test = $this->Persona_model->baja('454');
+		$test = $this->Persona_model->baja($this->cuil_prueba);
 		$resultado['resultado']='OK';
 		$expected_result = $resultado;
 		$test_name = 'Baja persona por cuil';

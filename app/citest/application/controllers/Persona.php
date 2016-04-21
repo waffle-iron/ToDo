@@ -74,7 +74,7 @@ class Persona extends CI_Controller {
 		{
 			$this->variables['mensaje']= validation_errors();
 		}
-		else if($this->Persona_model->alta()['resultado']='OK')
+		else if($this->Persona_model->alta($this->_obtener_post())['resultado']='OK')
 		{
 
 			$this->variables['mensaje'] = '<div class="alert alert-success"><a href="#" class="close" variables-dismiss="alert" aria-label="close">&times;</a>Persona guardada correctamente!</div>';
@@ -131,7 +131,7 @@ class Persona extends CI_Controller {
 			{
 				$this->variables['mensaje']= validation_errors();
 			}
-			else if($this->Persona_model->editar()['resultado']='OK')
+			else if($this->Persona_model->editar($this->_obtener_post())['resultado']='OK')
 			{
 			
 				$this->variables['mensaje'] = '<div class="alert alert-success"><a href="#" class="close" variables-dismiss="alert" aria-label="close">&times;</a>Persona guardada correctamente!</div>';
@@ -154,6 +154,20 @@ class Persona extends CI_Controller {
 	{
 		$this->Persona_model->baja($cuil);
 		$this->index();
+	}
+	
+	/**
+	 * Obtiene los datos del post y los devuelve en forma de objeto
+ 	 * @return		object		$persona			
+	 */
+	private function _obtener_post()
+	{
+		$persona = new stdClass();
+		$persona->cuil 		= $this->input->post('cuil');
+		$persona->nombre 	= $this->input->post('nombre');
+		$persona->apellido 	= $this->input->post('apellido');
+		$persona->mail 		= $this->input->post('mail');
+		return $persona;
 	}
 	
 	/**
