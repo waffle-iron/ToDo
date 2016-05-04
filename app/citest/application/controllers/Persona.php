@@ -35,7 +35,7 @@ class Persona extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->_setear_variables('Personas', '', site_url('persona/consulta'), '', '');
+		$this->_setear_variables(lang('html_persona_titulo_default'), '', site_url('persona/consulta'), '', '');
 		$this->_renderizar_tabla(NULL, $this->Persona_model->consulta());
 		$this->load->view('templates/header', $this->variables);
 		$this->load->view('personas/buscar_persona', $this->variables);
@@ -48,7 +48,7 @@ class Persona extends CI_Controller {
 	 */
 	public function consulta()
 	{
-		$this->_setear_variables('Busqueda de Personas', '', site_url('persona/consulta'), '', '');
+		$this->_setear_variables(lang('html_persona_titulo_consulta'), '', site_url('persona/consulta'), '', '');
 		$cuil = $this->input->post('cuil');
 		if ($cuil!=NULL){
 			$persona = $this->Persona_model->consulta($cuil);
@@ -67,7 +67,7 @@ class Persona extends CI_Controller {
 	 */
 	public function alta()
 	{
-		$this->_setear_variables('Alta de Personas', '', site_url('persona/alta'), anchor('persona','Cancelar',array('class'=>'btn btn-danger', 'role'=> 'button')), '');
+		$this->_setear_variables(lang('html_persona_titulo_alta'), '', site_url('persona/alta'), anchor('persona',lang('html_persona_button_cancelar'),array('class'=>'btn btn-danger', 'role'=> 'button')), '');
 		$this->_setear_campos();
 		$this->_setear_reglas();
 		if($this->form_validation->run() == FALSE)
@@ -77,11 +77,11 @@ class Persona extends CI_Controller {
 		else if($this->Persona_model->alta($this->_obtener_post())['resultado']='OK')
 		{
 
-			$this->variables['mensaje'] = '<div class="alert alert-success"><a href="#" class="close" variables-dismiss="alert" aria-label="close">&times;</a>Persona guardada correctamente!</div>';
+			$this->variables['mensaje'] = '<div class="alert alert-success"><a href="#" class="close" variables-dismiss="alert" aria-label="close">&times;</a>'.lang('html_persona_mensaje_ok').'</div>';
 		}
 		else
 		{
-			$this->variables['mensaje'] = '<div class="alert alert-danger">Error al guardar persona</div>';
+			$this->variables['mensaje'] = '<div class="alert alert-danger">'.lang('html_persona_mensaje_error').'</div>';
 		}
 		$this->load->view('templates/header', $this->variables);
 		$this->load->view('personas/grabar_persona', $this->variables);
@@ -95,7 +95,7 @@ class Persona extends CI_Controller {
 	public function ver($cuil = NULL)
 	{
 		$this->variables['personas_item'] = $this->Persona_model->consulta($cuil);
-		$this->_setear_variables('Detalle persona', '', '', '', anchor('persona','Volver',array('class'=>'btn btn-primary', 'role'=> 'button')));
+		$this->_setear_variables(lang('html_persona_titulo_ver'), '', '', '', anchor('persona',lang('html_persona_button_volver'),array('class'=>'btn btn-primary', 'role'=> 'button')));
 		if (empty($this->variables['personas_item']))
 		{
 			show_404();
@@ -112,7 +112,7 @@ class Persona extends CI_Controller {
 	 */
 	public function editar($cuil=NULL)
 	{
-		$this->_setear_variables('Modificar persona', '', site_url('persona/editar'), anchor('persona','Cancelar',array('class'=>'btn btn-danger', 'role'=> 'button')), '');
+		$this->_setear_variables(lang('html_persona_titulo_modificar'), '', site_url('persona/editar'), anchor('persona',lang('html_persona_button_cancelar'),array('class'=>'btn btn-danger', 'role'=> 'button')), '');
 		//Si no es un post, no se llama al editar y solo se muestran los campos para editar
 		if(!$this->input->post('cuil'))
 		{	
@@ -134,11 +134,11 @@ class Persona extends CI_Controller {
 			else if($this->Persona_model->editar($this->_obtener_post())['resultado']='OK')
 			{
 			
-				$this->variables['mensaje'] = '<div class="alert alert-success"><a href="#" class="close" variables-dismiss="alert" aria-label="close">&times;</a>Persona guardada correctamente!</div>';
+				$this->variables['mensaje'] = '<div class="alert alert-success"><a href="#" class="close" variables-dismiss="alert" aria-label="close">&times;</a>'.lang('html_persona_mensaje_ok').'</div>';
 			}
 			else
 			{
-				$this->variables['mensaje'] = '<div class="alert alert-danger">Error al guardar persona</div>';
+				$this->variables['mensaje'] = '<div class="alert alert-danger">'.lang('html_persona_mensaje_error').'</div>';
 			}
 		}
 		$this->load->view('templates/header', $this->variables);
@@ -187,13 +187,13 @@ class Persona extends CI_Controller {
 		$template = isset($template) ? $template : array('table_open' => '<table border="0" cellpadding="4" cellspacing="0" class="table table-striped">');
 		$this->load->library('table');
 		$this->table->set_template($template);
-		$this->table->set_heading('CUIL', 'Nombre', 'Apellido', 'Mail', 'Acciones');
+		$this->table->set_heading(lang('html_persona_label_cuil'), lang('html_persona_label_nombre'), lang('html_persona_label_apellido'), lang('html_persona_label_mail'), lang('html_grilla_acciones'));
 		foreach ($datos as $persona)
 		{
 			$this->table->add_row($persona['cuil'], $persona['nombre'], $persona['apellido'], $persona['mail'],
-					anchor('persona/ver/'.$persona['cuil'],'ver',array('class'=>'view')).' '.
-					anchor('persona/editar/'.$persona['cuil'],'modificar',array('class'=>'update')).' '.
-					anchor('persona/baja/'.$persona['cuil'],'eliminar',array('class'=>'delete','onclick'=>"return confirm('¿Esta seguro que desea eliminar esta persona?')"))
+					anchor('persona/ver/'.$persona['cuil'],lang('html_persona_button_ver'),array('class'=>'view')).' '.
+					anchor('persona/editar/'.$persona['cuil'],lang('html_persona_button_modificar'),array('class'=>'update')).' '.
+					anchor('persona/baja/'.$persona['cuil'],lang('html_persona_button_eliminar'),array('class'=>'delete','onclick'=>"return confirm('".lang('html_persona_mensaje_confirmacion')."')"))
 					);
 		}
 		$this->variables['tabla'] = $this->table->generate();
@@ -248,6 +248,6 @@ class Persona extends CI_Controller {
 	 */
 	public function ax_alta()
 	{
-		echo json_encode($this->Persona_model->alta());
+		echo json_encode($this->Persona_model->alta($this->_obtener_post()));
 	}
 }
