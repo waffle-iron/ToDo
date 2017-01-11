@@ -2,6 +2,7 @@
 [![Stories in Ready](https://badge.waffle.io/geekscruff/todo.png?label=ready&title=Ready)](https://waffle.io/geekscruff/todo)
 [![Stories in Ready](https://badge.waffle.io/geekscruff/todo.png?label=ready&title=Ready)](https://waffle.io/geekscruff/todo)
 [![Stories in Ready](https://badge.waffle.io/geekscruff/todo.png?label=ready&title=Ready)](https://waffle.io/geekscruff/todo)
+[![Stories in Ready](https://badge.waffle.io/geekscruff/todo.png?label=ready&title=Ready)](https://waffle.io/geekscruff/todo)
 [![Stories in Ready](https://badge.waffle.io/PeumaHue/ToDo.png?label=ready&title=Ready)](https://waffle.io/PeumaHue/ToDo)
 ##Simple database CRUD example with codeigniter
 In app/citest directory
