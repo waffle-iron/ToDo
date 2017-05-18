@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/yetea/todo.png?label=ready&title=Ready)](https://waffle.io/yetea/todo?utm_source=badge)
 [![Stories in Ready](https://badge.waffle.io/dbpiper/TODO.png?label=ready&title=Ready)](https://waffle.io/dbpiper/TODO)
 [![Stories in Ready](https://badge.waffle.io/dbpiper/TODO.png?label=ready&title=Ready)](https://waffle.io/dbpiper/TODO)
 [![Stories in Ready](https://badge.waffle.io/dbpiper/TODO.png?label=ready&title=Ready)](https://waffle.io/dbpiper/TODO)
